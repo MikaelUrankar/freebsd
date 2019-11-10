@@ -341,9 +341,9 @@
 					maxim,active-fps-power-down-slot = <7>;
 				};
 
-				ldo3 {
-					status = "disabled";
-				};
+//				ldo3 {
+//					status = "disabled";
+//				};
 
 				vdd_rtc: ldo4 {
 					regulator-name = "VDD_RTC";
@@ -362,13 +362,13 @@
 					maxim,active-fps-power-down-slot = <6>;
 				};
 
-				ldo5 {
-					status = "disabled";
-				};
+//				ldo5 {
+//					status = "disabled";
+//				};
 
-				ldo6 {
-					status = "disabled";
-				};
+//				ldo6 {
+//					status = "disabled";
+//				};
 
 				avdd_1v05_pll: ldo7 {
 					regulator-name = "AVDD_1V05_PLL";
