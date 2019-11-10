@@ -1,0 +1,75 @@
+#include "nvidia/tegra210-p3450-0000.dts"
+
+/* tegra210.dtsi patches */
+#include <dt-bindings/reset/tegra210-car.h>
+/ {
+	cpus {
+		cpu@0 {
+			clocks = <&tegra_car TEGRA210_CLK_CCLK_G>,
+				 <&tegra_car TEGRA210_CLK_CCLK_LP>,
+				 <&tegra_car TEGRA210_CLK_PLL_X>,
+				 <&tegra_car TEGRA210_CLK_PLL_P_OUT4>,
+				 <&dfll>;
+			clock-names = "cpu_g", "cpu_lp", "pll_x", "pll_p", "dfll";
+			clock-latency = <300000>;
+		};
+	};
+
+	dfll: clock@70110000 {
+		compatible = "nvidia,tegra210-dfll";
+		reg = <0 0x70110000 0 0x100>, /* DFLL control */
+		      <0 0x70110000 0 0x100>, /* I2C output control */
+		      <0 0x70110100 0 0x100>, /* Integrated I2C controller */
+		      <0 0x70110200 0 0x100>; /* Look-up table RAM */
+		interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&tegra_car TEGRA210_CLK_DFLL_SOC>,
+		         <&tegra_car TEGRA210_CLK_DFLL_REF>,
+		         <&tegra_car TEGRA210_CLK_I2C5>;
+		clock-names = "soc", "ref", "i2c";
+		resets = <&tegra_car TEGRA210_RST_DFLL_DVCO>;
+		reset-names = "dvco";
+		#clock-cells = <0>;
+		clock-output-names = "dfllCPU_out";
+		out-clock-name = "dfll_cpu";
+		status = "disabled";
+	};
+
+
+};
+
+/ {
+        sdhci@700b0000 {
+                compatible = "nvidia,tegra210-sdhci", "nvidia,tegra124-sdhci";
+                reg = <0x0 0x700b0000 0x0 0x200>;
+                interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
+                clocks = <&tegra_car TEGRA210_CLK_SDMMC1>;
+                clock-names = "sdhci";
+                resets = <&tegra_car 14>;
+                reset-names = "sdhci";
+                pinctrl-names = "sdmmc-3v3", "sdmmc-1v8",
+                                "sdmmc-3v3-drv", "sdmmc-1v8-drv";
+                pinctrl-0 = <&sdmmc1_3v3>;
+                pinctrl-1 = <&sdmmc1_1v8>;
+                pinctrl-2 = <&sdmmc1_3v3_drv>;
+                pinctrl-3 = <&sdmmc1_1v8_drv>;
+                nvidia,pad-autocal-pull-up-offset-3v3 = <0x00>;
+                nvidia,pad-autocal-pull-down-offset-3v3 = <0x7d>;
+                nvidia,pad-autocal-pull-up-offset-1v8 = <0x7b>;
+                nvidia,pad-autocal-pull-down-offset-1v8 = <0x7b>;
+                nvidia,default-tap = <0x2>;
+                nvidia,default-trim = <0x4>;
+                assigned-clocks = <&tegra_car TEGRA210_CLK_SDMMC4>,
+                                  <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>,
+                                  <&tegra_car TEGRA210_CLK_PLL_C4>;
+                assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
+                assigned-clock-rates = <200000000>, <1000000000>, <1000000000>;
+                status = "okay";
+        };
+}
+
+/* tegra210-p2597.dtsi patches */
+/ {
+	usb@70090000 {
+		freebsd,clock-xusb-gate = <&tegra_car 143>;
+	};
+}
