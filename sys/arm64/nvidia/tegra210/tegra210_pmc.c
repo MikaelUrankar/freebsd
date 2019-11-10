@@ -275,8 +275,10 @@ tegra_powergate_remove_clamping(enum tegra_powergate_id  id)
 	}
 
 	reg = RD4(sc, PMC_PWRGATE_STATUS);
-	if ((reg & PMC_PWRGATE_STATUS_PARTID(id)) == 0)
-		panic("Attempt to remove clamping for unpowered partition.\n");
+	if ((reg & PMC_PWRGATE_STATUS_PARTID(id)) == 0) {
+		device_printf(sc->dev, "Attempt to remove clamping for unpowered partition: %d\n", id);
+		return (0);
+	}
 
 	if (id == TEGRA_POWERGATE_PCX)
 		swid = TEGRA_POWERGATE_VDE;
