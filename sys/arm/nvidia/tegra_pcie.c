@@ -521,7 +521,7 @@ static int tegra_pci_intr(void *arg)
 	if (code == AFI_INTR_CODE_INT_CODE_SM_MSG)
 		return(FILTER_STRAY);
 
-	printf("tegra_pci_intr: code %x sig %x\n", code, signature);
+//	printf("tegra_pci_intr: code %x sig %x\n", code, signature);
 	return (FILTER_HANDLED);
 }
 
