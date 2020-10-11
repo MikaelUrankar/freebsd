@@ -134,11 +134,13 @@ static uint64_t cpu_freq_tbl[] = {
 	1428000000UL,
 	1530000000UL,
 	1632000000UL,
+#if 0
 	1734000000UL,
 	1836000000UL,
 	1912500000UL,
 	2014500000UL,
 	2218500000UL,
+#endif
 };
 
 struct tegra210_cpufreq_softc {
@@ -448,7 +450,7 @@ tegra210_cpufreq_attach(device_t dev)
 	sc->act_speed_point = get_speed_point(sc, freq);
 
 	/* Set safe startup CPU frequency. */
-	rv = set_cpu_freq(sc, 1632000000);
+	rv = set_cpu_freq(sc, 1428000000);
 	if (rv != 0) {
 		device_printf(dev, "Can't set initial CPU clock frequency\n");
 		return (rv);
