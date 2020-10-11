@@ -427,7 +427,6 @@ get_fdt_resources(struct tegra_xhci_softc *sc, phandle_t node)
 		if (rv != 0 && rv != ENOENT) {
 			device_printf(sc->dev, "Cannot get '%s' phy.\n",
 		    	    sc->soc->phy_names[i]);
-			return (ENXIO);
 		}
 	}
 
